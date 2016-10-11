@@ -11,8 +11,6 @@ gitlab_ssl_certificate_key: "/etc/gitlab/ssl/gitlab.key"
 # SSL Self-signed Certificate Configuration.
 gitlab_create_self_signed_cert: true
 gitlab_self_signed_cert_subj: "/C=US/ST=Missouri/L=Saint Louis/O=IT/CN=gitlab"
-gitlab_registry_create_self_signed_cert: true
-gitlab_registry_self_signed_cert_subj: "/C=US/ST=Missouri/L=Saint Louis/O=IT/CN={{ registry_host }}"
 
 # Probably best to leave this as the default, unless doing testing.
 gitlab_restart_handler_failed_when: 'gitlab_restart.rc != 0'
@@ -29,6 +27,7 @@ gitlab_email_reply_to: 'gitlab@example.com'
 
 gitlab_registry_external_host: "registry.gitlab"
 gitlab_registry_external_url: "https://{{ gitlab_registry_external_host }}/"
-gitlab_registry_ssl_certificate: "/etc/gitlab/ssl/gitlab_registry.crt"
-gitlab_registry_ssl_certificate_key: "/etc/gitlab/ssl/gitlab_registry.key"
+
+gitlab_registry_ssl_certificate: "/etc/gitlab/ssl/{{ gitlab_registry_external_host }}.crt"
+gitlab_registry_ssl_certificate_key: "/etc/gitlab/ssl/{{ gitlab_registry_external_host }}.key"
 

@@ -55,7 +55,7 @@
     creates={{ gitlab_ssl_certificate }}
   when: gitlab_create_self_signed_cert
 
-- name: Create self-signed certificate for registry.
+- name: "Create self-signed certificate for registry {{ gitlab_registry_external_host }}."
   command: >
     openssl req -new -nodes -x509 -subj "{{ gitlab_registry_self_signed_cert_subj }}" -days 3650 -keyout {{ gitlab_registry_ssl_certificate_key }} -out {{ gitlab_registry_ssl_certificate }} -extensions v3_ca
     creates={{ gitlab_registry_ssl_certificate }}
