@@ -28,6 +28,7 @@ gitlab_email_reply_to: 'gitlab@example.com'
 gitlab_registry_external_host: "registry.gitlab"
 gitlab_registry_external_url: "https://{{ gitlab_registry_external_host }}/"
 
-gitlab_registry_ssl_certificate: "/etc/gitlab/ssl/{{ gitlab_registry_external_host }}.crt"
-gitlab_registry_ssl_certificate_key: "/etc/gitlab/ssl/{{ gitlab_registry_external_host }}.key"
+gitlab_registry_ssl_dir: "/etc/gitlab/ssl/"
+gitlab_registry_ssl_certificate: "{{ gitlab_registry_ssl_dir }}/{{ gitlab_registry_external_host }}.crt"
+gitlab_registry_ssl_certificate_key: "{{ gitlab_registry_ssl_dir }}/{{ gitlab_registry_external_host }}.key"
 

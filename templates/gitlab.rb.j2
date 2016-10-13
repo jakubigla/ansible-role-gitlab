@@ -37,7 +37,7 @@ gitlab_rails['gitlab_email_reply_to'] = "{{ gitlab_email_reply_to }}"
 # gitlab_rails['gitlab_default_projects_features_wiki'] = true
 # gitlab_rails['gitlab_default_projects_features_snippets'] = false
 # gitlab_rails['gitlab_default_projects_features_builds'] = true
-# gitlab_rails['gitlab_default_projects_features_container_registry'] = true
+gitlab_rails['gitlab_default_projects_features_container_registry'] = true
 # gitlab_rails['gitlab_repository_downloads_path'] = 'tmp/repositories'
 # gitlab_rails['gravatar_plain_url'] = 'http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon'
 # gitlab_rails['gravatar_ssl_url'] = 'https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon'
@@ -352,19 +352,19 @@ gitlab_rails['gitlab_email_reply_to'] = "{{ gitlab_email_reply_to }}"
 # see http://docs.gitlab.com/ce/administration/container_registry.html
 #
 
-#registry_external_url "{{ gitlab_registry_external_url }}"
+registry_external_url "{{ gitlab_registry_external_url }}"
 
 # Settings used by GitLab application
-#gitlab_rails['registry_enabled'] = true
-#gitlab_rails['registry_host'] = "{{ gitlab_registry_external_host }}"
-#gitlab_rails['registry_port'] = "5000"
-#gitlab_rails['registry_api_url'] = "http://localhost:5000"
-#gitlab_rails['registry_key_path'] = "{{ gitlab_registry_ssl_certificate_key }}"
+gitlab_rails['registry_enabled'] = true
+gitlab_rails['registry_host'] = "{{ gitlab_registry_external_host }}"
+gitlab_rails['registry_port'] = "5000"
+gitlab_rails['registry_api_url'] = "http://localhost:5000"
+gitlab_rails['registry_key_path'] = "{{ gitlab_registry_ssl_certificate_key }}"
 #gitlab_rails['registry_path'] = "/var/opt/gitlab/gitlab-rails/shared/registry"
 #gitlab_rails['registry_issuer'] = "omnibus-gitlab-issuer"
 
 # Settings used by Registry application
-#registry['enable'] = true
+registry['enable'] = true
 #registry['username'] = "registry"
 #registry['group'] = "registry"
 #registry['uid'] = nil
@@ -372,9 +372,9 @@ gitlab_rails['gitlab_email_reply_to'] = "{{ gitlab_email_reply_to }}"
 #registry['dir'] = "/var/opt/gitlab/registry"
 #registry['log_directory'] = "/var/log/gitlab/registry"
 #registry['log_level'] = "info"
-#registry['rootcertbundle'] = "{{ gitlab_registry_ssl_certificate }}"
-#registry['debug_addr'] = "localhost:5001"
-#registry['storage_delete_enabled'] = true
+registry['rootcertbundle'] = "{{ gitlab_registry_ssl_dir }}"
+registry['debug_addr'] = "localhost:5001"
+registry['storage_delete_enabled'] = true
 # # Registry backend storage, see http://docs.gitlab.com/ce/administration/container_registry.html#container-registry-storage-driver
 # registry['storage'] = {
 #   's3' => {
@@ -948,8 +948,8 @@ nginx['ssl_certificate_key'] = "{{ gitlab_ssl_certificate_key }}"
 # Registry NGINX #
 ##################
 
-#registry_nginx['ssl_certificate'] = "{{ gitlab_registry_ssl_certificate }}"
-#registry_nginx['ssl_certificate_key'] = "{{ gitlab_registry_ssl_certificate_key }}"
+registry_nginx['ssl_certificate'] = "{{ gitlab_registry_ssl_certificate }}"
+registry_nginx['ssl_certificate_key'] = "{{ gitlab_registry_ssl_certificate_key }}"
 # registry_nginx['listen_port'] = nil # override only if you use a reverse proxy: https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/nginx.md#setting-the-nginx-listen-port
 # registry_nginx['listen_https'] = nil # override only if your reverse proxy internally communicates over HTTP: https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/nginx.md#supporting-proxied-ssl
 # registry_nginx['proxy_set_headers'] = {
