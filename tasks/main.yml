@@ -10,6 +10,14 @@
   stat: path=/usr/bin/gitlab-ctl
   register: gitlab_file
 
+- name: Check if registry certy already exist
+  stat: path={{ gitlab_registry_ssl_crt }}
+  register: registry_crt
+
+- set_fact:
+    gitlab_registry_create_self_signed_cert: false
+  when: (registry_crt.stat.exists == true)
+
 # Install GitLab and its dependencies.
 - name: Install GitLab dependencies.
   package: name={{ item }} state=installed
@@ -55,11 +63,27 @@
     creates={{ gitlab_ssl_certificate }}
   when: gitlab_create_self_signed_cert
 
-- name: "Create self-signed certificate for registry {{ gitlab_registry_external_host }}."
-  command: >
-    openssl req -new -nodes -x509 -subj "{{ gitlab_registry_self_signed_cert_subj }}" -days 3650 -keyout {{ gitlab_registry_ssl_certificate_key }} -out {{ gitlab_registry_ssl_certificate }} -extensions v3_ca
-    creates={{ gitlab_registry_ssl_certificate }}
+- name: "Create self-signed certificate for registry {{ gitlab_registry_external_host }}"
+  command: openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN={{ gitlab_registry_external_host }}" -keyout {{ gitlab_registry_ssl_key }} -out {{ gitlab_registry_ssl_crt }}
   when: gitlab_registry_create_self_signed_cert
+
+- name: Update global certificates
+  shell: cp {{ gitlab_registry_ssl_crt }} /usr/local/share/ca-certificates/{{ gitlab_registry_external_host }}.crt
+
+- shell: cp {{ gitlab_ssl_certificate }} /usr/local/share/ca-certificates/{{ gitlab_host }}.crt
+- shell: update-ca-certificates
+
+- name: Update docker certificates
+  file:
+    path: /etc/docker/certs.d
+    state: directory
+
+- shell: cp {{ gitlab_ssl_certificate }} /etc/docker/certs.d/{{ gitlab_host }}.crt
+- shell: cp {{ gitlab_registry_ssl_crt }} /etc/docker/certs.d/{{ gitlab_registry_external_host }}.crt
+
+- service:
+    name: docker
+    state: restarted
 
 - name: Copy GitLab configuration file.
   template:
