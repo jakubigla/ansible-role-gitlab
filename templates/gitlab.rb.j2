@@ -12,17 +12,17 @@ gitlab_rails['gitlab_default_projects_features_container_registry'] = true
 
 registry_external_url "{{ gitlab_registry_external_url }}"
 registry['enable'] = true
-registry['storage'] = {
-    's3' => {
-        'accesskey' => "{{ aws_access_key_id }}",
-        'secretkey' => '{{ aws_secret_access_key }}',
-        'bucket' => "{{ registry_s3_bucket_name }}"
-    }
-}
+#registry['storage'] = {
+#    's3' => {
+#        'accesskey' => "",
+#        'secretkey' => "",
+#        'bucket' => ""
+#    }
+#}
 
 nginx['redirect_http_to_https'] = {{ gitlab_redirect_http_to_https }}
 nginx['ssl_certificate'] = "{{ gitlab_ssl_certificate }}"
 nginx['ssl_certificate_key'] = "{{ gitlab_ssl_certificate_key }}"
 
-registry_nginx['ssl_certificate'] = "{{ gitlab_registry_ssl_crt }}"
-registry_nginx['ssl_certificate_key'] = "{{ gitlab_registry_ssl_key }}"
+registry_nginx['ssl_certificate'] = "{{ gitlab_registry_ssl_certificate }}"
+registry_nginx['ssl_certificate_key'] = "{{ gitlab_registry_ssl_certificate_key }}"
